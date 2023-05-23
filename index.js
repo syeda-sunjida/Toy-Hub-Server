@@ -26,14 +26,14 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
-        // const serviceCollection = client.db('carDoctor').collection('services');
-        // const bookingCollection = client.db('carDoctor').collection('bookings');
-        // app.get('/services', async (req, res) => {
-        //     const cursor = serviceCollection.find();
-        //     const result = await cursor.toArray();
-        //     res.send(result);
+        const serviceCollection = client.db('toyHub').collection('toy');
+        const allToyCollection = client.db('toyHub').collection('allToys');
+        app.get('/toy', async (req, res) => {
+            const cursor = serviceCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
 
-        // })
+         })
         // app.get('/services/:id', async (req, res) => {
         //     const id = req.params.id;
         //     const query = { _id: new ObjectId(id) }
@@ -46,15 +46,15 @@ async function run() {
         // })
 
         // //bookings
-        // app.get('/bookings', async (req, res) => {
-        //     console.log(req.query.email);
-        //     let query={};
-        //     if(req.query?.email){
-        //        query = {email: req.query.email} 
-        //     }
-        //     const result = await bookingCollection.find(query).toArray();
-        //     res.send(result);
-        // })
+        app.get('/allToys', async (req, res) => {
+            console.log(req.query.email);
+            let query={};
+            if(req.query?.email){
+               query = {email: req.query.email} 
+            }
+            const result = await allToyCollection.find(query).toArray();
+            res.send(result);
+        })
 
         // app.post('/bookings', async (req, res) => {
         //     const booking = req.body;
@@ -82,7 +82,7 @@ async function run() {
         // })
 
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
