@@ -1,7 +1,8 @@
 const express = require('express');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 const app = express();
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+
 const port = process.env.PORT || 5000;
 require('dotenv').config()
 //middleware
@@ -24,7 +25,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
 
         const serviceCollection = client.db('toyHub').collection('toy');
         const allToyCollection = client.db('toyHub').collection('allToys');
@@ -50,18 +51,18 @@ async function run() {
             console.log(req.query.email);
             let query={};
             if(req.query?.email){
-               query = {email: req.query.email} 
+               query = {SellerEmail: req.query.email} 
             }
             const result = await allToyCollection.find(query).toArray();
             res.send(result);
         })
 
-        // app.post('/bookings', async (req, res) => {
-        //     const booking = req.body;
-        //     console.log(booking);
-        //     const result = await bookingCollection.insertOne(booking);
-        //     res.send(result);
-        // });
+        app.post('/allToys', async (req, res) => {
+            const booking = req.body;
+            console.log(booking);
+            const result = await allToyCollection.insertOne(booking);
+            res.send(result);
+        });
 
         // app.patch('/bookings/:id', async(req, res)=> {
         // const updateBooking = req.body;
